@@ -171,7 +171,7 @@ c_iter<-1000;#iter for coda
 c_burn <- c_iter/2;
 c_thin<- 1;
 
-for_coda_1000<-cbind(Y$theta[1:1000,],Y$theta_0,Y$d[1:1000,])
+for_coda_1000<-cbind(Y$theta[1:1000,],Y$theta_0[1:1000,],Y$d[1:1000])
 
 Y_mc_1000<- mcmc(data =for_coda_1000, start = c_burn + 1, end = c_iter, thin = c_thin)
 s<-summary(Y_mc_1000)
@@ -197,7 +197,7 @@ c_iter<-5000;#iter for coda
 c_burn <- c_iter/2;
 c_thin<-1
 
-for_coda_5000<-cbind(Y$theta[1:5000,],Y$theta_0[1:5000,],Y$d[1:5000,])
+for_coda_5000<-cbind(Y$theta[1:5000,],Y$theta_0[1:5000,],Y$d[1:5000])
 
 Y_mc_5000<- mcmc(data =for_coda_5000, start = c_burn + 1, end = c_iter, thin = c_thin)
 s<-summary(Y_mc_5000)
@@ -224,7 +224,7 @@ c_iter<-10000;#iter for coda
 c_burn <- c_iter/2;
 c_thin<-1
 
-for_coda_10000<-cbind(Y$theta[1:10000,],Y$theta_0[1:10000,],Y$d[1:10000,])
+for_coda_10000<-cbind(Y$theta[1:10000,],Y$theta_0[1:10000,],Y$d[1:10000])
 
 Y_mc_10000<- mcmc(data =for_coda_10000, start = c_burn + 1, end = c_iter, thin = c_thin)
 s<-summary(Y_mc_10000)
@@ -238,15 +238,44 @@ d_10000<-s$statistics[7,1]
 
 ESS_10000<-effectiveSize(Y_mc_10000)
 
+Y_for_test_10000<- mcmc(data =for_coda_10000, start =  1, end =c_iter, thin = 1)
+
 Hd_10000<-heidel.diag(Y_for_test_10000, eps=0.1, pvalue=0.05) #2 additional variables
 #rm(for_coda_10000,Y_mc_10000)
+
+#----------------------15000-------------------------------------------------
+c_iter<-15000;#iter for coda
+c_burn <- c_iter/2;
+c_thin<-1
+
+for_coda_15000<-cbind(Y$theta[1:15000,],Y$theta_0[1:15000,],Y$d[1:15000])
+
+Y_mc_15000<- mcmc(data =for_coda_15000, start = c_burn + 1, end = c_iter, thin = c_thin)
+s<-summary(Y_mc_15000)
+theta_1_15000<-s$statistics[1,1]
+theta_2_15000<-s$statistics[2,1]
+theta_3_15000<-s$statistics[3,1]
+theta_01_15000<-s$statistics[4,1]
+theta_02_15000<-s$statistics[5,1]
+theta_03_15000<-s$statistics[6,1]
+d_15000<-s$statistics[7,1]
+
+ESS_15000<-effectiveSize(Y_mc_15000)
+
+Y_for_test_15000<- mcmc(data =for_coda_15000, start =  1, end =c_iter, thin = 1)
+
+Hd_15000<-heidel.diag(Y_for_test_15000, eps=0.1, pvalue=0.05) #2 additional variables
+#rm(for_coda_10000,Y_mc_10000)
+
+
+
 
 #------------------------20000------------------------------------------------
 c_iter<-20000;#iter for coda
 c_burn <- c_iter/2;
 c_thin<-1
 
-for_coda_all_20000<-cbind(Y$theta[1:20000,],Y$theta_0[1:20000,],Y$d[1:20000,])
+for_coda_20000<-cbind(Y$theta[1:20000,],Y$theta_0[1:20000,],Y$d[1:20000])
 
 Y_mc_20000<- mcmc(data =for_coda_all_20000, start = c_burn + 1, end = c_iter, thin = c_thin)
 s<-summary(Y_mc_20000)
@@ -260,12 +289,12 @@ d_20000<-s$statistics[7,1]
 
 ESS_20000<-effectiveSize(Y_mc_20000)
 
+Y_for_test_20000<- mcmc(data =for_coda_20000, start =  1, end =c_iter, thin = 1)
+
 Hd_20000<-heidel.diag(Y_for_test_20000, eps=0.1, pvalue=0.05) #2 additional variables
 #rm(for_coda_20000,Y_mc_20000)
 
 }
-
-
 
 
 # ========================================================================================
