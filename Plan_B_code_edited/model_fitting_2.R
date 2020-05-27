@@ -83,10 +83,6 @@ Delta_start[W_s[1]:W_s[2], L_s[1]:L_s[2]] <- 1;
 P_start <- matrix(sample(1:Q, W*L, replace = TRUE), ncol = L, nrow = W);
 
 
-
-
-
-
 # ========================================================================================
 # ========================================================================================
 # CYCLE OF 5 IMAGES
@@ -150,11 +146,6 @@ HP$l <- NA;
     
   
   
-  
-  
-
-
-
 iter <- 20000;     # Number of iterations
 burn <- iter/2;   # Number of burn in
 
@@ -185,9 +176,10 @@ d_1000<-s$statistics[7,1]
 
 ESS_1000<-effectiveSize(Y_mc_1000)
 
-Y_for_test_1000<- mcmc(data =for_coda_1000, start =  1, end =c_iter, thin = 1)
+geweke.diag(Y_mc_1000)
+x11()
+geweke.plot(Y_mc_1000, frac1 = 0.1, frac2 = 0.5, nbins = 20)
 
-Hd_1000<-heidel.diag(Y_for_test_1000, eps=0.1, pvalue=0.05) #2 additional variables for output
 
 #rm(for_coda_1000,Y_mc_1000)
 
@@ -212,9 +204,10 @@ d_5000<-s$statistics[7,1]
 
 ESS_5000<-effectiveSize(Y_mc_5000)
 
-Y_for_test_5000<- mcmc(data =for_coda_5000, start =  1, end =c_iter, thin = 1)
+geweke.diag(Y_mc_5000)
+x11()
+geweke.plot(Y_mc_5000, frac1 = 0.1, frac2 = 0.5, nbins = 20)
 
-Hd_5000<-heidel.diag(Y_for_test_5000, eps=0.1, pvalue=0.05) #2 additional variables
 
 #rm(for_coda_5000,Y_mc_5000)
 
@@ -238,9 +231,10 @@ d_10000<-s$statistics[7,1]
 
 ESS_10000<-effectiveSize(Y_mc_10000)
 
-Y_for_test_10000<- mcmc(data =for_coda_10000, start =  1, end =c_iter, thin = 1)
+geweke.diag(Y_mc_10000)
+x11()
+geweke.plot(Y_mc_10000, frac1 = 0.1, frac2 = 0.5, nbins = 20)
 
-Hd_10000<-heidel.diag(Y_for_test_10000, eps=0.1, pvalue=0.05) #2 additional variables
 #rm(for_coda_10000,Y_mc_10000)
 
 #----------------------15000-------------------------------------------------
@@ -262,9 +256,11 @@ d_15000<-s$statistics[7,1]
 
 ESS_15000<-effectiveSize(Y_mc_15000)
 
-Y_for_test_15000<- mcmc(data =for_coda_15000, start =  1, end =c_iter, thin = 1)
+#geweke.diag(Y_mc_15000)
+#x11()
+#geweke.plot(Y_mc_15000, frac1 = 0.1, frac2 = 0.5, nbins = 20)
 
-Hd_15000<-heidel.diag(Y_for_test_15000, eps=0.1, pvalue=0.05) #2 additional variables
+
 #rm(for_coda_10000,Y_mc_10000)
 
 
@@ -274,10 +270,10 @@ Hd_15000<-heidel.diag(Y_for_test_15000, eps=0.1, pvalue=0.05) #2 additional vari
 c_iter<-20000;#iter for coda
 c_burn <- c_iter/2;
 c_thin<-1
-
+Y<-Y30
 for_coda_20000<-cbind(Y$theta[1:20000,],Y$theta_0[1:20000,],Y$d[1:20000])
 
-Y_mc_20000<- mcmc(data =for_coda_all_20000, start = c_burn + 1, end = c_iter, thin = c_thin)
+Y_mc_20000<- mcmc(data =for_coda_20000, start = c_burn + 1, end = c_iter, thin = c_thin)
 s<-summary(Y_mc_20000)
 theta_1_20000<-s$statistics[1,1]
 theta_2_20000<-s$statistics[2,1]
@@ -291,8 +287,15 @@ ESS_20000<-effectiveSize(Y_mc_20000)
 
 Y_for_test_20000<- mcmc(data =for_coda_20000, start =  1, end =c_iter, thin = 1)
 
-Hd_20000<-heidel.diag(Y_for_test_20000, eps=0.1, pvalue=0.05) #2 additional variables
+#x11()
+#cumuplot(Y_mc_20000)
+#geweke.diag(Y_mc_20000)
+#x11()
+#geweke.plot(Y_mc_20000, frac1 = 0.1, frac2 = 0.5, nbins = 20)
+
+
 #rm(for_coda_20000,Y_mc_20000)
+
 
 }
 
