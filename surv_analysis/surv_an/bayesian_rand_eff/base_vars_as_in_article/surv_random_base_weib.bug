@@ -1,0 +1,42 @@
+model{
+for (i in 1 : N) {
+for (j in 1 : M) {
+# Survival times bounded below by censoring times:
+censored[i,j] ~ dinterval(t[i,j], cens[i,j]) 
+t[i,j] ~ dweib(sqrt(tau2), phi[i,j])    
+phi[i,j] <-  0.0000000000001+log(2)*exp(-mu[i,j]*sqrt(tau2)) 
+mu[i,j] <- beta.intercept + beta.stage2*equals(stage[i],2) + beta.stage3*equals(stage[i],3)  + beta.stage4*equals(stage[i],4)+beta.stage5*equals(stage[i],5)+beta.stage6*equals(stage[i],6)+beta.stage7*equals(stage[i],7) + beta.gender*gender[i]+beta.age*age[i]+beta.smoke_stat*smoke_stat[i]+beta.pi_str*pi_str[i,j]+beta.pi_lym*pi_lym[i,j]+beta.strlym*str_lym[i,j]+beta.tumlym*tum_lym[i,j]+beta.lymstr*lym_str[i,j]+beta.tumstr*tum_str[i,j]+beta.lymtum*lym_tum[i,j]+beta.strtum*str_tum[i,j]+beta.lambda*lambda[i,j]+b[i];
+}
+#
+# Random effects:
+b[i] ~ dnorm(0.0, tau)
+}
+# Priors:
+
+beta.intercept ~ dnorm(0,0.0001) 
+beta.stage2 ~ dnorm(0,0.0001) 
+beta.stage3 ~ dnorm(0,0.0001) 
+beta.stage4 ~ dnorm(0,0.0001) 
+beta.stage5 ~ dnorm(0,0.0001) 
+beta.stage6 ~ dnorm(0,0.0001) 
+
+beta.stage7 ~ dnorm(0,0.0001) 
+beta.gender ~ dnorm(0,0.0001)
+beta.age ~ dnorm(0,0.0001)
+beta.smoke_stat ~ dnorm(0,0.0001)
+
+beta.pi_str ~ dnorm(0,0.0001)
+beta.pi_lym ~ dnorm(0,0.0001)
+beta.strlym ~ dnorm(0,0.0001)
+beta.tumlym ~ dnorm(0,0.0001)
+beta.lymstr ~ dnorm(0,0.0001)
+beta.tumstr ~ dnorm(0,0.0001)
+beta.lymtum ~ dnorm(0,0.0001)
+beta.strtum ~ dnorm(0,0.0001)
+beta.lambda ~ dnorm(0,0.0001)
+
+tau ~ dgamma(1.0E-3, 1.0E-3);
+tau2 ~ dgamma(1.0E-3, 1.0E-3);
+
+sigma <- 1 / sqrt(tau); # s.d. of random effects
+}
