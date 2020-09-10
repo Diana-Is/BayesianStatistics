@@ -5,20 +5,8 @@
 
 
 ## Abstract
-Cancer is a very complex desease characterized by uncontrolled cells growth.
-In past studies, it was shown that cell-cell interactions play a vital role in the progression of the methastasis of cancer
-But it is hard for pathologists to study those subtle though crucial patterns due to human brain limitations!
-Bayesian framework well applies in order to model how the mark in a pattern might have been formed given the points
+The digital pathology imaging of tumor tissue produces massive data that can capture histological details in high resolution at a large scale. It enables detailed identification, analysis and classification up to an individual cell level thanks to the recent developments in computational techniques.
 
-Our dataset is coming from an *images* dataset of more than 50 images.
-In particular, it comes from the dataset of pathology images of lung cancer patients as a result of the National Lung Screening trial from the National Cancer Institute from US.
-\
-We describe a spatial map of cells using:
-1. *(x, y)*: couple of Cartesian spacial coordinates,
-1. *z*: mark, associated by our data providers through a CNN classifier trained on years of data collected from ill patients.
-\
-##### Our goal is to **study the arrangements of cell types associated with the observed cells**, given their locations.
-In spatial point pattern analysis, such a problem is called *marking modeling*, which is to study the formulation of the marks z in a pattern, given the points (x, y).
+Our study focuses on the problem of modeling \textbf{spatial correlations} among three cells commonly observed in tumor pathology images: \textit{lymphocyte}, \textit{stromal}, and \textit{tumor}, and approaches the problem in a Bayesian framework, with the aim of modeling how the mark in a pattern might have been formed given the points, with interpretable underlying parameters.
 
-## Code
-TBD :)
+The main goal of the study is to apply Markov Chain Monte Carlo (MCMC) sampling techniques, combined with the double Metropolis-Hastings (DMH) algorithm, to sample from the posterior distribution with an intractable normalizing constant. The additional aim is to study the statistical significance of the estimated parameters for the prediction of the patient survival time.
