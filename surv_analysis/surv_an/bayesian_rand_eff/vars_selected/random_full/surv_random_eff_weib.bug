@@ -1,0 +1,42 @@
+model{
+for (i in 1 : N) {
+for (j in 1 : M) {
+# Survival times bounded below by censoring times:
+censored[i,j] ~ dinterval(t[i,j], cens[i,j]) 
+t[i,j] ~ dweib(alpha, phi[i,j])    
+phi[i,j] <-  0.00000000001+log(2)*exp(-mu[i,j]*alpha) 
+mu[i,j] <- beta.intercept + beta.stage2*equals(stage[i],2) + beta.stage3*equals(stage[i],3)  + beta.stage4*equals(stage[i],4)+beta.rnd*rnd_group[i]+beta.progr*progression_num[i]+beta.asbest*Asbestosis[i]+beta.sarcoid*Sarcoidosis[i]+beta.work_smoke*work_with_smoker[i]+beta.gender*gender[i]+beta.race_asian*race_asian[i]+beta.omega_str*omega_str[i,j]+beta.omega_lym*omega_lym[i,j]+beta.lym_lym*lym_lym[i,j]+beta.lym_str*lym_str[i,j]+beta.lym_tum*lym_tum[i,j]+beta.str_str*str_str[i,j]+beta.str_tum*str_tum[i,j]+beta.lambda*lambda[i,j]+b[i];
+}
+#
+# Random effects:
+b[i] ~ dnorm(0.0, tau)
+}
+# Priors:
+
+beta.intercept ~ dnorm(0,0.0001) 
+beta.stage2 ~ dnorm(0,0.0001) 
+beta.stage3 ~ dnorm(0,0.0001) 
+beta.stage4 ~ dnorm(0,0.0001) 
+
+beta.rnd  ~ dnorm(0,0.0001) 
+beta.progr ~ dnorm(0,0.0001)
+beta.asbest ~ dnorm(0,0.0001)
+beta.sarcoid ~ dnorm(0,0.0001)
+beta.gender ~ dnorm(0,0.0001)
+beta.race_asian ~ dnorm(0,0.0001)
+beta.work_smoke ~ dnorm(0,0.0001)
+
+beta.omega_str ~ dnorm(0,0.0001)
+beta.omega_lym ~ dnorm(0,0.0001)
+beta.lym_lym ~ dnorm(0,0.0001)
+beta.lym_str ~ dnorm(0,0.0001)
+beta.lym_tum ~ dnorm(0,0.0001)
+beta.str_str ~ dnorm(0,0.0001)
+beta.str_tum ~ dnorm(0,0.0001)
+beta.lambda ~ dnorm(0,0.0001)
+
+tau ~ dgamma(1.0E-3, 1.0E-3);
+tau2 ~ dgamma(1.0E-3, 1.0E-3);
+alpha <- sqrt(tau2)
+sigma <- 1 / sqrt(tau); # s.d. of random effects
+}
