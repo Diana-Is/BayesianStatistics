@@ -1,0 +1,36 @@
+#############################################################  
+# SPIKE AND SLAB VARIABLE SELECTION: LOGLOGISTIC REGRESSION #
+#############################################################
+
+model{
+for(i in 1:N){
+censored[i] ~ dinterval(t[i], cens[i]) 
+t[i] ~ dlogis(mu[i], taustar)
+mu[i] <- beta0 + inprod(X[i,], beta)
+}
+taustar <- sqrt(tau)
+tau ~ dgamma(0.001,0.001)
+sigma <- sqrt(1/tau)
+
+# tracing the visited model
+for (j in 1:p){
+	TempIndicator[j]<- g[j] * pow(2, j) 
+}
+mdl<- 1 + sum(TempIndicator[]) # model index in binary coding 
+
+##Since the Gaussian distribution
+## is parametrized in terms of precision parameter
+beta0 ~ dnorm(0, 0.001)
+
+for(j in 1:p){
+	tprior[j] <- 1 / var_beta[j]
+	bprior[j] <- 0
+}
+
+for(j in 1:p){
+	beta_temp[j] ~ dnorm(bprior[j], tprior[j])
+	g[j] ~ dbern(theta[j])
+	theta[j] ~ dunif(0,1)
+	beta[j] <- g[j] * beta_temp[j]	
+}
+}
