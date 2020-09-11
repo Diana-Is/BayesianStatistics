@@ -1,0 +1,36 @@
+model{
+for (i in 1 : N) {
+for (j in 1 : M) {
+# Survival times bounded below by censoring times:
+censored[i,j] ~ dinterval(t[i,j], cens[i,j]) 
+t[i,j] ~ dweib(sqrt(tau2), phi[i,j])    
+phi[i,j] <- 0.00000000001+log(2)*exp(-mu[i,j]*sqrt(tau2)) 
+mu[i,j] <- beta.intercept + beta.gender*gender[i]+beta.age*age[i]+beta.smoke_stat*smoke_stat[i]+beta.stage2*equals(stage[i],2) + beta.stage3*equals(stage[i],3)  + beta.stage4*equals(stage[i],4)+beta.0strlym*str_lym[i,j]+beta.0tumlym*tum_lym0[i,j]+beta.0tumstr*tum_str0[i,j]+beta.lymtum*lym_tum[i,j]+beta.strtum*str_tum[i,j]+b[i];
+}
+#
+# Random effects:
+b[i] ~ dnorm(0.0, tau)
+}
+# Priors:
+
+beta.intercept ~ dnorm(0,0.0001) 
+beta.gender ~ dnorm(0,0.0001)
+beta.age ~ dnorm(0,0.0001)
+beta.smoke_stat ~ dnorm(0,0.0001)
+beta.stage2 ~ dnorm(0,0.0001) 
+beta.stage3 ~ dnorm(0,0.0001) 
+beta.stage4 ~ dnorm(0,0.0001) 
+
+beta.0strlym ~ dnorm(0,0.0001)
+beta.0tumlym ~ dnorm(0,0.0001)
+beta.0lymstr ~ dnorm(0,0.0001)
+beta.strlym ~ dnorm(0,0.0001)
+beta.tumlym ~ dnorm(0,0.0001)
+beta.lymstr ~ dnorm(0,0.0001)
+
+
+tau ~ dgamma(1.0E-3, 1.0E-3);
+tau2 ~ dgamma(1.0E-3, 1.0E-3);
+
+sigma <- 1 / sqrt(tau); # s.d. of random effects
+}
